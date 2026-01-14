@@ -1,3 +1,22 @@
+# ComfyUI Framework Ecosystem
+# Copyright (C) 2025 Joseph Ibrahim <joseph@josephibrahim.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published
+# by the Free Software Foundation, version 3 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# Commercial licensing available: See COMMERCIAL_LICENSE.md
+
 """
 ComfyUI Framework Nodes
 =======================
@@ -61,7 +80,7 @@ class ECHO_ContextManager:
     RETURN_TYPES = ("ECHO_CONTEXT", "STRING", "INT")
     RETURN_NAMES = ("context", "debug_info", "effective_tokens")
     FUNCTION = "manage_context"
-    CATEGORY = "Framework/ECHO"
+    CATEGORY = "JI/Memory"
 
     # NVFP4-style compression ratios per tier
     TIER_COMPRESSION = {
@@ -131,7 +150,7 @@ class ECHO_ContextMerger:
     RETURN_TYPES = ("ECHO_CONTEXT", "STRING")
     RETURN_NAMES = ("merged_context", "merge_info")
     FUNCTION = "merge_contexts"
-    CATEGORY = "Framework/ECHO"
+    CATEGORY = "JI/Memory"
 
     def merge_contexts(self, context_a: Dict, context_b: Dict,
                        weight_a: float) -> Tuple[Dict, str]:
@@ -217,7 +236,7 @@ class MoE_ExpertRouter:
     RETURN_TYPES = ("MOE_ROUTING", "STRING", "FLOAT")
     RETURN_NAMES = ("routing", "selected_experts", "confidence")
     FUNCTION = "route_query"
-    CATEGORY = "Framework/CSQMF"
+    CATEGORY = "JI/Routing"
 
     def route_query(self, query: str, num_experts: int, routing_seed: int,
                     force_expert: str = "none") -> Tuple[Dict, str, float]:
@@ -286,7 +305,7 @@ class MoE_ExpertExecutor:
     RETURN_TYPES = ("STRING", "STRING")
     RETURN_NAMES = ("enhanced_prompt", "execution_params")
     FUNCTION = "execute"
-    CATEGORY = "Framework/CSQMF"
+    CATEGORY = "JI/Routing"
 
     def execute(self, routing: Dict, base_prompt: str) -> Tuple[str, str]:
 
@@ -377,7 +396,7 @@ class PRISM_Analyzer:
     RETURN_TYPES = ("PRISM_ANALYSIS", "STRING")
     RETURN_NAMES = ("analysis", "summary")
     FUNCTION = "analyze"
-    CATEGORY = "Framework/PRISM"
+    CATEGORY = "JI/Analysis"
 
     def analyze(self, subject: str, perspectives: str, depth: str) -> Tuple[Dict, str]:
 
@@ -472,7 +491,7 @@ class DeterministicSampler:
     RETURN_TYPES = ("SAMPLER_CONFIG", "STRING")
     RETURN_NAMES = ("sampler_config", "determinism_info")
     FUNCTION = "create_config"
-    CATEGORY = "Framework/Determinism"
+    CATEGORY = "JI/Reproducible"
 
     def create_config(self, seed: int, steps: int, cfg: float,
                       sampler_name: str, scheduler: str) -> Tuple[Dict, str]:
@@ -540,7 +559,7 @@ class ChecksumValidator:
     RETURN_TYPES = ("IMAGE", "STRING", "BOOLEAN", "STRING")
     RETURN_NAMES = ("image", "computed_hash", "matches", "validation_report")
     FUNCTION = "validate"
-    CATEGORY = "Framework/Determinism"
+    CATEGORY = "JI/Reproducible"
 
     def validate(self, image, expected_hash: str = "",
                  hash_algorithm: str = "sha256") -> Tuple[Any, str, bool, str]:
@@ -609,7 +628,7 @@ class VFX_ShotAnalyzer:
     RETURN_TYPES = ("VFX_ANALYSIS", "STRING", "STRING")
     RETURN_NAMES = ("analysis", "detected_domains", "specialist_recommendation")
     FUNCTION = "analyze_shot"
-    CATEGORY = "Framework/VFX"
+    CATEGORY = "JI/VFX"
 
     def analyze_shot(self, shot_description: str, shot_name: str,
                      frame_range: str = "1001-1100") -> Tuple[Dict, str, str]:
@@ -683,30 +702,30 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    # ECHO 2.0
-    "ECHO_ContextManager": "ECHO Context Manager (4-Tier)",
-    "ECHO_ContextMerger": "ECHO Context Merger",
+    # Memory nodes (ECHO)
+    "ECHO_ContextManager": "Memory Bank (Hot→Cold)",
+    "ECHO_ContextMerger": "Merge Memories",
 
-    # CSQMF-R1
-    "MoE_ExpertRouter": "MoE Expert Router (CSQMF)",
-    "MoE_ExpertExecutor": "MoE Expert Executor",
+    # Routing nodes (MoE)
+    "MoE_ExpertRouter": "Smart Model Picker",
+    "MoE_ExpertExecutor": "Run Expert",
 
-    # PRISM
-    "PRISM_Analyzer": "PRISM Multi-Perspective Analyzer",
+    # Analysis nodes (PRISM)
+    "PRISM_Analyzer": "Multi-Angle Analyzer",
 
-    # Determinism
-    "DeterministicSampler": "Deterministic Sampler (Batch-Invariant)",
-    "ChecksumValidator": "Checksum Validator (Reproducibility)",
+    # Reproducibility nodes
+    "DeterministicSampler": "Locked Sampler",
+    "ChecksumValidator": "Output Matcher",
 
-    # VFX
-    "VFX_ShotAnalyzer": "VFX Shot Analyzer (Phoenix+PRISM)",
+    # VFX nodes
+    "VFX_ShotAnalyzer": "Shot Type Detector",
 }
 
 # Category color hints (for ComfyUI theming)
 NODE_CATEGORY_COLORS = {
-    "Framework/ECHO": "#4A90D9",      # Blue - Memory
-    "Framework/CSQMF": "#D94A4A",     # Red - Routing
-    "Framework/PRISM": "#4AD94A",     # Green - Analysis
-    "Framework/Determinism": "#D9D94A",  # Yellow - Validation
-    "Framework/VFX": "#9B4AD9",       # Purple - VFX
+    "JI/Memory": "#4A90D9",        # Blue - Memory
+    "JI/Routing": "#D94A4A",       # Red - Routing
+    "JI/Analysis": "#4AD94A",      # Green - Analysis
+    "JI/Reproducible": "#D9D94A", # Yellow - Validation
+    "JI/VFX": "#9B4AD9",           # Purple - VFX
 }

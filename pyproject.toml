@@ -2,9 +2,22 @@
 name = "comfyui-framework-ecosystem"
 version = "1.0.0"
 description = "AI framework integration nodes: ECHO context memory, MoE routing, PRISM analysis, deterministic sampling"
-license = "Apache-2.0"
+license = "AGPL-3.0-only"
 readme = "README.md"
 requires-python = ">=3.10"
+authors = [
+    {name = "Joseph Ibrahim", email = "joseph@josephibrahim.com"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU Affero General Public License v3",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
 dependencies = [
     "numpy>=1.21.0",
 ]
@@ -13,8 +26,9 @@ dependencies = [
 torch = ["torch>=2.0.0"]
 
 [project.urls]
-Repository = "https://github.com/josephibrahim/comfyui-framework-ecosystem"
-Documentation = "https://github.com/josephibrahim/comfyui-framework-ecosystem#readme"
+Homepage = "https://github.com/joe002/comfyui-framework-ecosystem"
+Repository = "https://github.com/joe002/comfyui-framework-ecosystem"
+Issues = "https://github.com/joe002/comfyui-framework-ecosystem/issues"
 
 [tool.comfy]
 PublisherId = "josephibrahim"
